@@ -1,6 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://dkei208t2nwo1"]
+[gd_scene load_steps=16 format=3 uid="uid://dkei208t2nwo1"]
 
 [ext_resource type="Script" path="res://actor.gd" id="1_xpiqy"]
+[ext_resource type="Texture2D" uid="uid://c375guquc7cad" path="res://Sprites/gameSpriteSheet PUPILLESS.png" id="2_3k12s"]
 [ext_resource type="Texture2D" uid="uid://bog06i0h7i1rb" path="res://gameSpriteSheet.png" id="2_mt5r8"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_afgi3"]
@@ -11,12 +12,12 @@ region = Rect2(80, 0, 16, 16)
 atlas = ExtResource("2_mt5r8")
 region = Rect2(128, 0, 16, 16)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_wbh56"]
-atlas = ExtResource("2_mt5r8")
+[sub_resource type="AtlasTexture" id="AtlasTexture_vxo1v"]
+atlas = ExtResource("2_3k12s")
 region = Rect2(48, 0, 16, 16)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_lvutf"]
-atlas = ExtResource("2_mt5r8")
+[sub_resource type="AtlasTexture" id="AtlasTexture_jykio"]
+atlas = ExtResource("2_3k12s")
 region = Rect2(64, 0, 16, 16)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ax6lk"]
@@ -34,24 +35,69 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_wbh56")
+"texture": SubResource("AtlasTexture_vxo1v")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_lvutf")
+"texture": SubResource("AtlasTexture_jykio")
 }],
 "loop": true,
 "name": &"run",
 "speed": 8.0
 }]
 
+[sub_resource type="QuadMesh" id="QuadMesh_x27g2"]
+
+[sub_resource type="Gradient" id="Gradient_0pn0b"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_e8bu1"]
+gradient = SubResource("Gradient_0pn0b")
+
+[sub_resource type="QuadMesh" id="QuadMesh_aiadc"]
+
+[sub_resource type="Gradient" id="Gradient_muih8"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0, 0.25098, 1, 0.12549)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_52aiy"]
+gradient = SubResource("Gradient_muih8")
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_dmht5"]
 
 [node name="Actor" type="Node2D"]
 
+[node name="Camera" type="Camera2D" parent="."]
+position_smoothing_enabled = true
+position_smoothing_speed = 1.5
+
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_ax6lk")
 animation = &"run"
-frame_progress = 0.597865
+
+[node name="Eye Left" type="Node2D" parent="AnimatedSprite2D"]
+position = Vector2(-0.5, -3.5)
+
+[node name="Pupil" type="MeshInstance2D" parent="AnimatedSprite2D/Eye Left"]
+mesh = SubResource("QuadMesh_x27g2")
+texture = SubResource("GradientTexture1D_e8bu1")
+
+[node name="Iris" type="MeshInstance2D" parent="AnimatedSprite2D/Eye Left/Pupil"]
+scale = Vector2(2, 2)
+mesh = SubResource("QuadMesh_aiadc")
+texture = SubResource("GradientTexture1D_52aiy")
+
+[node name="Eye Right" type="Node2D" parent="AnimatedSprite2D"]
+position = Vector2(3.5, -3.5)
+
+[node name="Pupil" type="MeshInstance2D" parent="AnimatedSprite2D/Eye Right"]
+mesh = SubResource("QuadMesh_x27g2")
+texture = SubResource("GradientTexture1D_e8bu1")
+
+[node name="Iris" type="MeshInstance2D" parent="AnimatedSprite2D/Eye Right/Pupil"]
+scale = Vector2(2, 2)
+mesh = SubResource("QuadMesh_aiadc")
+texture = SubResource("GradientTexture1D_52aiy")
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="."]
 script = ExtResource("1_xpiqy")
@@ -65,7 +111,3 @@ shape = SubResource("CircleShape2D_dmht5")
 
 [node name="Marker2D" type="Marker2D" parent="CharacterBody2D"]
 position = Vector2(15, 0)
-
-[node name="Camera2D" type="Camera2D" parent="CharacterBody2D"]
-zoom = Vector2(1.25, 1.25)
-position_smoothing_enabled = true

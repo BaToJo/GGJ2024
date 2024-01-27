@@ -2,9 +2,14 @@ extends CharacterBody2D
 
 const SPEED = 100.0
 @export var Bullet: PackedScene
-@onready var Camera = $Camera2D
+@onready var camera = $"../Camera"
 @onready var animated_sprite = $"../AnimatedSprite2D"
+@onready var eye_left = $"../AnimatedSprite2D/Eye Left/Pupil"
+@onready var eye_right = $"../AnimatedSprite2D/Eye Right/Pupil"
 @export var fire_rate = 0.2
+var eye_left_start_position: Vector2
+var eye_right_start_position: Vector2
+
 var actual_rate = 0.2
 var timer = 0
 
@@ -16,12 +21,23 @@ var power_timer = 0
 
 var die: bool = false
 
-func _ready():
+# Handle camera behaviour and respond to camera related user input
+func update_camera():
+	var viewport_size: Vector2 = get_viewport().size
+	var mouse_offset = (get_viewport().get_mouse_position() - viewport_size / 2)
+	camera.position = animated_sprite.position + lerp(Vector2(), mouse_offset.normalized() * 500, (((mouse_offset.length()+1)*(mouse_offset.length()+1))-1) / (1500000 * camera.zoom.length()))
 
-	Camera.set("position", Vector2(100, 0))
+
+
+func _ready():
+	# Camera.set("position", Vector2(100, 0))
+	eye_left_start_position = $"../AnimatedSprite2D/Eye Left".position
+	eye_right_start_position = $"../AnimatedSprite2D/Eye Right".position
 
 func _physics_process(delta):
 	timer += delta
+
+	update_camera()
 
 	if power == true:
 		power_timer += delta
@@ -31,6 +47,19 @@ func _physics_process(delta):
 	else:
 		actual_rate = fire_rate
 		power_timer = 0
+
+	# Eye pupils follow mouse cursor
+	if animated_sprite.flip_h:
+		$"../AnimatedSprite2D/Eye Left".position.x = -eye_left_start_position.x
+		$"../AnimatedSprite2D/Eye Right".position.x = -eye_right_start_position.x
+	else:
+		$"../AnimatedSprite2D/Eye Left".position.x = eye_left_start_position.x
+		$"../AnimatedSprite2D/Eye Right".position.x = eye_right_start_position.x
+
+	var offset_left = $".".get_global_mouse_position() - ($"../AnimatedSprite2D/Eye Left".position + $"../AnimatedSprite2D".position)
+	var offset_right = $".".get_global_mouse_position() - ($"../AnimatedSprite2D/Eye Right".position + $"../AnimatedSprite2D".position)
+	eye_left.position = offset_left / (8.0 * sqrt(offset_left.length()))
+	eye_right.position = offset_right / (8.0 * sqrt(offset_right.length()))
 
 
 	var direction_x = Input.get_axis("Left", "Right")
@@ -45,19 +74,19 @@ func _physics_process(delta):
 		return
 
 	#
-	if Input.get_action_raw_strength("Shoot") && timer >= actual_rate:
-		var temp = Bullet.instantiate()
-		add_sibling(temp)
-		temp.global_position = get_node("BulletSpawn").get("global_position")
+	#if Input.get_action_raw_strength("Shoot") && timer >= actual_rate:
+		#var temp = Bullet.instantiate()
+		#add_sibling(temp)
+		#temp.global_position = get_node("BulletSpawn").get("global_position")
+#
+		#temp.set("area_direction", (get_global_mouse_position() - self.global_position).normalized())
+#
+		#Camera.set("offset", Vector2(randf_range(-4, 4), randf_range(-4, 4)))
+		#timer = 0
 
-		temp.set("area_direction", (get_global_mouse_position() - self.global_position).normalized())
 
-		Camera.set("offset", Vector2(randf_range(-4, 4), randf_range(-4, 4)))
-		timer = 0
-
-
-	else:
-		Camera.set("offset", Vector2(0, 0))
+	# else:
+		# Camera.set("offset", Vector2(0, 0))
 
 	if direction_x:
 		velocity.x = direction_x * SPEED
@@ -88,7 +117,7 @@ func Die():
 	get_node("Explosive/Sound").play()
 	self.get_node("MeshInstance2D").set("visible", false)
 
-	Camera.set("position", Vector2(0, 0))
+	# Camera.set("position", Vector2(0, 0))
 	die = true
 
 	await get_tree().create_timer(1.5).timeout
@@ -104,6 +133,6 @@ func Respawn():
 
 func _input(event):
 	if event.is_action_pressed("zoom_in"):
-		Camera.zoom *= 1.1
+		camera.zoom *= 1.1
 	if event.is_action_pressed("zoom_out"):
-		Camera.zoom /= 1.1
+		camera.zoom /= 1.1
