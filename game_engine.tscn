@@ -1,10 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://cj30bo66udpwu"]
+[gd_scene load_steps=3 format=3 uid="uid://cj30bo66udpwu"]
 
-[ext_resource type="PackedScene" uid="uid://bvcc8xn0dkkcr" path="res://player.tscn" id="1_5ic0l"]
 [ext_resource type="PackedScene" uid="uid://dqhpbgwo13ngh" path="res://dungeon2.tscn" id="2_d5rd3"]
+[ext_resource type="PackedScene" uid="uid://dkei208t2nwo1" path="res://actor.tscn" id="2_jg1l6"]
 
 [node name="Game Engine" type="Node"]
 
-[node name="Player" parent="." instance=ExtResource("1_5ic0l")]
-
 [node name="Dungeon" parent="." instance=ExtResource("2_d5rd3")]
+
+[node name="Player" parent="." instance=ExtResource("2_jg1l6")]

@@ -1,36 +1,71 @@
-[gd_scene load_steps=6 format=3 uid="uid://dkei208t2nwo1"]
+[gd_scene load_steps=9 format=3 uid="uid://dkei208t2nwo1"]
 
 [ext_resource type="Script" path="res://actor.gd" id="1_xpiqy"]
+[ext_resource type="Texture2D" uid="uid://bog06i0h7i1rb" path="res://gameSpriteSheet.png" id="2_mt5r8"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_afgi3"]
+atlas = ExtResource("2_mt5r8")
+region = Rect2(80, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d5pyq"]
+atlas = ExtResource("2_mt5r8")
+region = Rect2(128, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wbh56"]
+atlas = ExtResource("2_mt5r8")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lvutf"]
+atlas = ExtResource("2_mt5r8")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ax6lk"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_afgi3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d5pyq")
+}],
+"loop": false,
+"name": &"die",
+"speed": 2.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wbh56")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lvutf")
+}],
+"loop": true,
+"name": &"run",
+"speed": 8.0
+}]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_dmht5"]
 
-[sub_resource type="SphereMesh" id="SphereMesh_qk1en"]
-radius = 10.0
-height = 20.0
+[node name="Actor" type="Node2D"]
 
-[sub_resource type="Gradient" id="Gradient_2sn82"]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_ax6lk")
+animation = &"run"
+frame_progress = 0.597865
 
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_5e5ea"]
-gradient = SubResource("Gradient_2sn82")
-fill_from = Vector2(1, 0)
-
-[node name="CharacterBody2D" type="CharacterBody2D"]
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
 script = ExtResource("1_xpiqy")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="CharacterBody2D"]
+remote_path = NodePath("../../AnimatedSprite2D")
+update_rotation = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
 shape = SubResource("CircleShape2D_dmht5")
 
-[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
-mesh = SubResource("SphereMesh_qk1en")
-
-[node name="Sprite2D" type="Sprite2D" parent="MeshInstance2D"]
-position = Vector2(7, 0)
-scale = Vector2(0.63, 0.63)
-texture = SubResource("GradientTexture2D_5e5ea")
-
-[node name="Marker2D" type="Marker2D" parent="."]
+[node name="Marker2D" type="Marker2D" parent="CharacterBody2D"]
 position = Vector2(15, 0)
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="CharacterBody2D"]
 zoom = Vector2(1.25, 1.25)
 position_smoothing_enabled = true
