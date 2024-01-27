@@ -267,4 +267,3 @@ animations = [{
 [node name="Animation Link" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_yqrvw")
 animation = &"Move south"
-frame_progress = 0.0442673
