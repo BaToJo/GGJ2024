@@ -12,8 +12,12 @@ config_version=5
 
 config/name="GGJ2024"
 run/main_scene="res://game_engine.tscn"
-config/features=PackedStringArray("4.1", "Forward Plus")
+config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
+
+[autoload]
+
+Verbs="*res://verbs.gd"
 
 [dotnet]
 
