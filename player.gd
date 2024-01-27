@@ -1,9 +1,10 @@
+
 extends Node2D
 
 @onready var camera = get_node("Camera")
 @onready var character = get_node("Link")
 @onready var mouse_position = character.get_global_mouse_position()
-
+@onready var projectile = %projectile
 
 
 
@@ -14,9 +15,10 @@ func _ready() -> void:
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	update_camera()
-	pass
+
+	
+
+	
 
 
 
