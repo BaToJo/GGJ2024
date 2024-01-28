@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://c1d6dctpe7s2x"]
+
+[ext_resource type="PackedScene" uid="uid://dg6mrlrp0tudq" path="res://main_menu.tscn" id="1_qjvmn"]
+[ext_resource type="PackedScene" uid="uid://cj30bo66udpwu" path="res://game_engine.tscn" id="2_f32v1"]
+
+[node name="Landing Scene" type="Node2D"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 100
+
+[node name="MainMenu" parent="CanvasLayer" instance=ExtResource("1_qjvmn")]
+mainGameScene = ExtResource("2_f32v1")
