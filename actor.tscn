@@ -1,5 +1,6 @@
-[gd_scene load_steps=16 format=3 uid="uid://dkei208t2nwo1"]
+[gd_scene load_steps=17 format=3 uid="uid://dkei208t2nwo1"]
 
+[ext_resource type="Script" path="res://actor_interface.gd" id="1_pqdeq"]
 [ext_resource type="Script" path="res://actor.gd" id="1_xpiqy"]
 [ext_resource type="Texture2D" uid="uid://c375guquc7cad" path="res://Sprites/gameSpriteSheet PUPILLESS.png" id="2_3k12s"]
 [ext_resource type="Texture2D" uid="uid://bog06i0h7i1rb" path="res://gameSpriteSheet.png" id="2_mt5r8"]
@@ -64,8 +65,10 @@ colors = PackedColorArray(0, 0.25098, 1, 0.12549)
 gradient = SubResource("Gradient_muih8")
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_dmht5"]
+radius = 8.0
 
 [node name="Actor" type="Node2D"]
+script = ExtResource("1_pqdeq")
 
 [node name="Camera" type="Camera2D" parent="."]
 position_smoothing_enabled = true
@@ -75,6 +78,8 @@ position_smoothing_speed = 1.5
 sprite_frames = SubResource("SpriteFrames_ax6lk")
 animation = &"run"
 
+[node name="Nav" type="NavigationAgent2D" parent="AnimatedSprite2D"]
+
 [node name="Eye Left" type="Node2D" parent="AnimatedSprite2D"]
 position = Vector2(-0.5, -3.5)
 
@@ -83,7 +88,7 @@ mesh = SubResource("QuadMesh_x27g2")
 texture = SubResource("GradientTexture1D_e8bu1")
 
 [node name="Iris" type="MeshInstance2D" parent="AnimatedSprite2D/Eye Left/Pupil"]
-scale = Vector2(2, 2)
+scale = Vector2(1e-05, 1e-05)
 mesh = SubResource("QuadMesh_aiadc")
 texture = SubResource("GradientTexture1D_52aiy")
 
@@ -95,7 +100,7 @@ mesh = SubResource("QuadMesh_x27g2")
 texture = SubResource("GradientTexture1D_e8bu1")
 
 [node name="Iris" type="MeshInstance2D" parent="AnimatedSprite2D/Eye Right/Pupil"]
-scale = Vector2(2, 2)
+scale = Vector2(1e-05, 1e-05)
 mesh = SubResource("QuadMesh_aiadc")
 texture = SubResource("GradientTexture1D_52aiy")
 
@@ -111,3 +116,9 @@ shape = SubResource("CircleShape2D_dmht5")
 
 [node name="Marker2D" type="Marker2D" parent="CharacterBody2D"]
 position = Vector2(15, 0)
+
+[node name="Nav_timer" type="Timer" parent="."]
+wait_time = 0.1
+autostart = true
+
+[connection signal="timeout" from="Nav_timer" to="CharacterBody2D" method="_on_nav_timer_timeout"]

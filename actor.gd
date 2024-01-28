@@ -2,13 +2,16 @@ extends CharacterBody2D
 
 const SPEED = 100.0
 @export var Bullet: PackedScene
+@export var Is_Player: bool = false
 @onready var camera = $"../Camera"
 @onready var animated_sprite = $"../AnimatedSprite2D"
 @onready var eye_left = $"../AnimatedSprite2D/Eye Left/Pupil"
 @onready var eye_right = $"../AnimatedSprite2D/Eye Right/Pupil"
+@onready var nav = $"../AnimatedSprite2D/Nav" as NavigationAgent2D
 @export var fire_rate = 0.2
 var eye_left_start_position: Vector2
 var eye_right_start_position: Vector2
+var nav_target_pos: Vector2 = $".".get_global_mouse_position()
 
 var actual_rate = 0.2
 var timer = 0
@@ -62,8 +65,23 @@ func _physics_process(delta):
 	eye_right.position = offset_right / (8.0 * sqrt(offset_right.length()))
 
 
-	var direction_x = Input.get_axis("Left", "Right")
-	var direction_y = Input.get_axis("Up", "Down")
+	var direction_x = 0.0
+	var direction_y = 0.0
+	if Is_Player:
+		direction_x = Input.get_axis("Left", "Right")
+		direction_y = Input.get_axis("Up", "Down")
+	else:
+		# We're an NPC, so navigate towards the mouse cursor.
+		var vector_to_target_angle = (nav.get_next_path_position() - $".".global_position).normalized()
+		var vector_to_target_distance = (get_global_mouse_position() - $".".global_position).length() / 100
+		if vector_to_target_distance > 1:
+			vector_to_target_distance = 1
+		var vector_to_target = vector_to_target_angle * vector_to_target_distance
+
+
+		# var vector_to_target = nav.get_next_path_position() - position
+		direction_x = vector_to_target.x
+		direction_y = vector_to_target.y
 	velocity.x = 0
 	velocity.y = 0
 
@@ -111,6 +129,10 @@ func _physics_process(delta):
 	move_and_slide()
 
 
+func Make_nav_path() -> void:
+	var temp = get_global_mouse_position()
+	nav.target_position = get_global_mouse_position()
+
 
 func Die():
 	get_node("Explosive").set_emitting(true)
@@ -136,3 +158,7 @@ func _input(event):
 		camera.zoom *= 1.1
 	if event.is_action_pressed("zoom_out"):
 		camera.zoom /= 1.1
+
+
+func _on_nav_timer_timeout() -> void:
+	Make_nav_path()

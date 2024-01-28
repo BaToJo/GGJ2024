@@ -8,3 +8,28 @@
 [node name="Dungeon" parent="." instance=ExtResource("2_d5rd3")]
 
 [node name="Player" parent="." instance=ExtResource("2_jg1l6")]
+Is_Player = true
+
+[node name="NPC" parent="." instance=ExtResource("2_jg1l6")]
+position = Vector2(29, 0)
+
+[node name="Actor" parent="." instance=ExtResource("2_jg1l6")]
+position = Vector2(53, 24)
+
+[node name="Actor2" parent="." instance=ExtResource("2_jg1l6")]
+position = Vector2(135, -45)
+
+[node name="Actor3" parent="." instance=ExtResource("2_jg1l6")]
+position = Vector2(-124, 84)
+
+[node name="Actor4" parent="." instance=ExtResource("2_jg1l6")]
+position = Vector2(69, 119)
+
+[node name="Actor5" parent="." instance=ExtResource("2_jg1l6")]
+position = Vector2(316, 65)
+
+[node name="Actor6" parent="." instance=ExtResource("2_jg1l6")]
+position = Vector2(-125, -39)
+
+[node name="Actor7" parent="." instance=ExtResource("2_jg1l6")]
+position = Vector2(131, -109)
