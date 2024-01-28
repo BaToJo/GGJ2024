@@ -1,6 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://cj30bo66udpwu"]
+[gd_scene load_steps=9 format=3 uid="uid://cj30bo66udpwu"]
 
 [ext_resource type="PackedScene" uid="uid://bvcc8xn0dkkcr" path="res://player.tscn" id="1_5ic0l"]
+[ext_resource type="PackedScene" uid="uid://dg6mrlrp0tudq" path="res://main_menu.tscn" id="2_mos30"]
+[ext_resource type="PackedScene" uid="uid://b32y4ao1aj2kc" path="res://pause_menu.tscn" id="3_5oc1i"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v0rwp"]
 
@@ -60,3 +62,14 @@ position = Vector2(0, 210)
 [node name="Collider" type="CollisionShape2D" parent="Test Map/Wall South"]
 scale = Vector2(20, 1)
 shape = SubResource("RectangleShape2D_yphgg")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 100
+
+[node name="MainMenu" parent="CanvasLayer" instance=ExtResource("2_mos30")]
+
+[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+layer = 90
+visible = false
+
+[node name="PauseMenu" parent="CanvasLayer2" instance=ExtResource("3_5oc1i")]

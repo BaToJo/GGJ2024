@@ -1,29 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://8rt0rqwmlexh"]
+[gd_scene load_steps=7 format=3 uid="uid://dg6mrlrp0tudq"]
 
 [ext_resource type="Script" path="res://main_menu.gd" id="1_7v50d"]
-[ext_resource type="FontFile" uid="uid://dqty0igjbivld" path="res://PixelifySans-VariableFont_wght.ttf" id="1_gectp"]
+[ext_resource type="FontFile" uid="uid://cb1mni0iyoi2k" path="res://PixelifySans-VariableFont_wght.ttf" id="1_gectp"]
 [ext_resource type="PackedScene" uid="uid://bvcc8xn0dkkcr" path="res://player.tscn" id="2_ch7xc"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2f7l8"]
-bg_color = Color(0, 0, 0, 0.392157)
-corner_radius_top_left = 15
-corner_radius_top_right = 15
-corner_radius_bottom_right = 15
-corner_radius_bottom_left = 15
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w8yve"]
-bg_color = Color(0, 0, 0, 0.588235)
-corner_radius_top_left = 15
-corner_radius_top_right = 15
-corner_radius_bottom_right = 15
-corner_radius_bottom_left = 15
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_41toh"]
-bg_color = Color(0, 0, 0, 0.784314)
-corner_radius_top_left = 15
-corner_radius_top_right = 15
-corner_radius_bottom_right = 15
-corner_radius_bottom_left = 15
+[ext_resource type="StyleBox" uid="uid://vptxbpkuwkru" path="res://main_menu_style_normal.tres" id="4_c13je"]
+[ext_resource type="StyleBox" uid="uid://cytbnyb4trnyp" path="res://main_menu_style.tres" id="4_ebqe2"]
+[ext_resource type="StyleBox" uid="uid://rb37rbjoy1ge" path="res://main_menu_style_hover.tres" id="5_cj63o"]
 
 [node name="MainMenu" type="Node2D"]
 position = Vector2(576, 324)
@@ -57,7 +39,7 @@ theme_override_colors/font_color = Color(1, 0.501961, 0.435294, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("1_gectp")
 theme_override_font_sizes/font_size = 126
-text = "Insert Title"
+text = "Chaotic Dungeon"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -80,9 +62,9 @@ size_flags_stretch_ratio = 0.0
 focus_mode = 0
 theme_override_fonts/font = ExtResource("1_gectp")
 theme_override_font_sizes/font_size = 22
-theme_override_styles/normal = SubResource("StyleBoxFlat_2f7l8")
-theme_override_styles/hover = SubResource("StyleBoxFlat_w8yve")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_41toh")
+theme_override_styles/normal = ExtResource("4_c13je")
+theme_override_styles/hover = ExtResource("5_cj63o")
+theme_override_styles/pressed = ExtResource("4_ebqe2")
 text = "New Game "
 
 [node name="MarginContainer3" type="MarginContainer" parent="MarginContainer/VBoxContainer/VBoxContainer"]
@@ -99,9 +81,9 @@ size_flags_stretch_ratio = 0.0
 focus_mode = 0
 theme_override_fonts/font = ExtResource("1_gectp")
 theme_override_font_sizes/font_size = 22
-theme_override_styles/normal = SubResource("StyleBoxFlat_2f7l8")
-theme_override_styles/hover = SubResource("StyleBoxFlat_w8yve")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_41toh")
+theme_override_styles/normal = ExtResource("4_c13je")
+theme_override_styles/hover = ExtResource("5_cj63o")
+theme_override_styles/pressed = ExtResource("4_ebqe2")
 text = "Exit"
 
 [connection signal="button_up" from="MarginContainer/VBoxContainer/VBoxContainer/MarginContainer/NewGame_Button" to="." method="_on_new_game_button_button_up"]
